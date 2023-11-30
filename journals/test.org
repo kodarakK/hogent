@@ -1,0 +1,6 @@
+#+title: Test
+
+* testing git and org Mode
+it is goin ggood currently
+** BigB is of the murder list that is owned by ZombieCleo
+this is a good thing actually
