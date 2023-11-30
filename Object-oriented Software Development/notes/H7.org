@@ -1,0 +1,6 @@
+#+title: H7
+
+* Dubbele code
+ Bij identieke code kunnen we een superklasse maken waarin onze gemeenschappelijke code staat
+
+*

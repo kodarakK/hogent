@@ -1,0 +1,8 @@
+Je weet nu:
+- Wat is DB
+- Wat is DBMS
+- Hoeveel variatie in DB's bestaat
+
+Je kan nu:
+- DB herkennen en beschrijven
+- DB terminologie gebruiken
