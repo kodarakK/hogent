@@ -3,6 +3,7 @@ package domein;
 import java.security.SecureRandom;
 
 public class Huisdier { // extends Object
+						// git adding testing purposes
 //	superklasse
 
 	private String naam;   // data is verborgen
