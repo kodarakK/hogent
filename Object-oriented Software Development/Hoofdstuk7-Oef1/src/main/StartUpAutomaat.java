@@ -62,7 +62,7 @@ public class StartUpAutomaat
 			gelukt = k.draaiHendel();
 			System.out.printf("Poging %d: ", i);
 			if (gelukt)
-				System.out.printf("%s kauwgombal%n", k.bepaalKleur().name().toLowerCase());
+				System.out.printf("%s kauwgombal%n", k.bepaalKleur());
 			else  // mislukt
 				if (k.isItemInBak()) // er zit nog een kauwgom in
 					System.out.println("Kauwgombal zit er nog in!");

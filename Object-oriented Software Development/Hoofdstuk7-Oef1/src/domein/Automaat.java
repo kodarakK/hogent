@@ -1,5 +1,7 @@
 package domein;
 
+import java.security.SecureRandom;
+
 public class Automaat
 {
 //	superklasse
@@ -8,12 +10,14 @@ public class Automaat
 	private boolean muntInGleuf;
 	private boolean itemInBak;
 	
+	protected final SecureRandom random;
 	
 	/*
 	 * constructors
 	 */
 	public Automaat(int aantalItems) {
 		setAantalItems(aantalItems);
+		random = new SecureRandom();
 	}
 	
 	
@@ -82,7 +86,12 @@ public class Automaat
 		return false;
 	}
 	
+	public void neemItem() {
+		setItemInBak(false);
+	}
 	
-	
+	public void neemMuntTerug() {
+		setMuntInGleuf(false);
+	}
 	
 }
