@@ -1,3 +1,4 @@
+
 package domein;
 
 public class SpaarRekening extends Rekening
