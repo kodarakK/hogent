@@ -2,22 +2,30 @@ package domein;
 
 public class Rekening
 {
-    private final long rekeningNr;
     private double saldo;
     protected String houder;
-    private static final String DEFAULT_NAAM = "onbekend";
+    private final long rekeningNr;
     private static final long DEFAULT_REKNR = 0L;
+    private static final String DEFAULT_HOUDER = "onbekend";
+
+    public Rekening() {
+    	this(DEFAULT_REKNR, DEFAULT_HOUDER);
+    }
 
     public Rekening(long rekeningNr, String houder)
     {
-        setHouder(houder);
         controleerRekeningNr(rekeningNr);
         this.rekeningNr = rekeningNr;
+        setHouder(houder);
     }
     
-    public Rekening() {
-    	this(DEFAULT_REKNR, DEFAULT_NAAM);
-    }
+    
+//    private void setRekeningNr(long rekeningNr)
+//    {
+//        controleerRekeningNr(rekeningNr);
+//        this.rekeningNr = rekeningNr;
+//    }
+    
 
     private void controleerRekeningNr(long rekeningNr)
     {
@@ -38,13 +46,6 @@ public class Rekening
         }
         this.houder = houder;
     }
-
-//    private void setRekeningNr(long rekeningNr)
-//    {
-//        controleerRekeningNr(rekeningNr);
-//        this.rekeningNr = rekeningNr;
-//    }
-
     
     public long getRekeningNr()
     {
@@ -69,14 +70,15 @@ public class Rekening
         long midden7 = (rekeningNr / 100) % 10000000;
 
         return String.format("%s%s %03d-%07d-%02d%n%s %s%n%s%.2f %s",
-                "Rekening", " met rekeningnummer", eerste3, midden7, rest,
-                "staat op naam van", this.getClass().getSimpleName(),
+                this.getClass().getSimpleName() /*"Rekening"*/,
+                " met rekeningnummer", eerste3, midden7, rest,
+                "staat op naam van", getHouder(),
                 "en bevat ", saldo, "euro");
     }
 
     public boolean stortOp(double bedrag)
     {
-        if (bedrag > 0 && getSaldo()>bedrag)
+        if (bedrag > 0)
         {
             saldo += bedrag;
             return true;

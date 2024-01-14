@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Prime Number Calculator</title>
+        <script type="text/javascript">
+            function calculatePrimes() {
+                const maxNumber = document.getElementById("maxNumber").value;
+
+                const primeNumbers = new Set();
+
+                for (let number = 2; number <= maxNumber; number++) {
+                    let isPrime = true;
+                    let i = 2;
+
+                    while (i <= number / 2 && isPrime) {
+                        if (number % i == 0) {
+                            isPrime = false;
+                        }
+
+                        i++;
+                    }
+
+                    if (isPrime == true) {
+                        primeNumbers.add(number);
+                    }
+                }
+
+                document.getElementById("result").innerHTML = Array.from(primeNumbers).join(", ");
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Prime Number Calculator</h1>
+        <p>Enter a maximum number:</p>
+        <input type="number" id="maxNumber" />
+        <button onclick="calculatePrimes()">Calculate Primes</button>
+        <p>Result:</p>
+        <div id="result"></div>
+    </body>
+</html>

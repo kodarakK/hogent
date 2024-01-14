@@ -1,0 +1,22 @@
+Naam:
+Voornaam:
+Klas:
+
+Vergeet niet je document te hernoemen! Volg de instructies uit de opgave!
+
+Kopieer telkens de inhoud van de volledige klasse onder de correcte titellijn.
+
+//----------------- Plant-----------------
+
+//----------------- Tuincentrum-----------------
+
+//----------------- DomeinController--------------
+
+//----------------- TuincentrumApplicatie---------------
+
+//----------------- PlantDTO--------
+
+//----------------- StartUp---------
+
+
+

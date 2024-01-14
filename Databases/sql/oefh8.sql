@@ -33,5 +33,12 @@ GROUP BY soort
 ;
 
 /*
-
+13 oef
 */
+SELECT p.naam, later.naam FROM planten p
+JOIN soorten s ON p.soortID = s.soortID
+JOIN planten later ON p.bl_b < later.bl_b AND p.soortID = later.soortID
+WHERE soort = 'vast'
+ORDER BY p.bl_b
+
+;
