@@ -18,7 +18,7 @@ Code 1b:
 extends Fietsç
 
 Code 2: 
-private void setGemSnelheid () {
+private void setGemSnelheid (gemSnelheid) {
 
 Code 3: 
 super();
@@ -34,7 +34,7 @@ super.berekenAfstand(uur);
 Code 5:
 int aantal = 0;
 for (Fiets f : fietsen) {
-	if (f.bereik == null)
+	if (f isInstanceOf elektrischeFiets)
 		aantal++
 }
 

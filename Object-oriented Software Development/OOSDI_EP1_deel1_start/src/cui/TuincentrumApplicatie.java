@@ -1,3 +1,4 @@
+
 package cui;
 
 import java.util.Scanner;
@@ -10,98 +11,184 @@ public class TuincentrumApplicatie
 {
 	private final DomeinController dc;
 	
-	private Scanner input = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 
 	public TuincentrumApplicatie(DomeinController dc) {
-		this.dc = dc;
+		this.dc =dc;
 	}
 
 	public void start() 
 	{
+		int keuze;
+		do{
 		String[] menuKeuzes = {"Toon overzicht alle planten", "Toon overzicht voorradige planten","Voeg plant toe","Geef overzicht per hoogte",  "Geef verkoopwaarde", "Stoppen"};
-		int keuze = maakMenuKeuze(menuKeuzes,"Wat kies je? ");
-	
-		while (keuze != 6)
-		{
-			switch(keuze) {
-				case 1 -> geefPlantenInVoorraad(false);
-				case 2 -> geefPlantenInVoorraad(true);
-				case 3 -> voegPlantToe();
-				case 4 -> maakOverzichtPlantenPerHoogte();
-				case 5 -> System.out.printf("De verkoopwaarde van de stock in EUR: %.2f%n", dc.bepaalWaardeVerkoop());
-			}
-			keuze = maakMenuKeuze(menuKeuzes,"Wat kies je? ");
-		} 
-			
+		keuze = maakMenuKeuze(menuKeuzes,"Wat kies je? ");
+		switch (keuze){
+			case 0 -> geefPlantenInVoorraad(false);
+			case 1 -> geefPlantenInVoorraad(true);
+			case 2 -> voegPlantToe();
+			case 3 -> maakOverzichtPlantenPerHoogte();
+			default -> toonVerkoopWaarde();
+		}
+		} while (keuze != 5);
 	}
 	
 	private int maakMenuKeuze(String[] keuzes, String hoofding) 
 	{
-		int keuze;
-		boolean geldig = false;
-		do 
-		{
-			System.out.printf("%n%s", hoofding);
-			for (int i = 0; i < 6; i++)
-				System.out.printf("%n%d. %s", i + 1, keuzes[i]);
-			System.out.print("\nJouw keuze: ");
-			keuze = input.nextInt();
-			if (keuze >= 1 || keuze < 7) 
-				geldig = true;
-			else
-				geldig = false;
-		}while (!geldig);
-		
-		return keuze;
+		System.out.println(hoofding);
+		for (int i = 0; i < keuzes.length; i++) System.out.println("%d\t%s".formatted(i,keuzes[i]));
+
+		int in =-1;
+		in = sc.nextInt();
+		while(in<0||in>=keuzes.length){
+			System.out.println("%d ligt niet tussen 0 en %d!".formatted(in, keuzes.length-1));
+			in = sc.nextInt();
+		}
+		return in;
 	}
-	
+
+
+	private void toonVerkoopWaarde(){
+		System.out.println("De totale verkoopprijs indien alles verkocht wordt zal neerkomen op %.2f euro.".formatted(dc.bepaalWaardeVerkoop()));
+	}
+
 
 	private void voegPlantToe()
 	{
-		dc.voegPlantToe(geefString("Geef de naam"), (char)geefString("Geef de soortcode (A, B of C)"),
-				geefInt("Geef de hoogte in cm"), geefDouble("Geef de prijs in EUR"), geefInt("Hoeveel in voorraad"));
-		
-	}
-	
-	Scanner sc = new Scanner(System.in);
-	private String geefString(String heading) {
-		System.out.printf("%c", 65);
-		System.out.printf("%s: ", heading);
-		return sc.nextLine();
-	}
-	
-	private int geefInt(String heading) 
-	{
-		System.out.printf("%s: ", heading);
-		return sc.nextInt();
-	}
-	
-	private double geefDouble(String heading) 
-	{
-		System.out.printf("%s: ", heading);
-		return sc.nextDouble();
+		System.out.println("Geef in deze volgorde: naam, soortcode, hoogte, prijs(in euro) en hoeveelheid in vooraad:\n");
+		dc.voegPlantToe(sc.next(), sc.next().charAt(0), sc.nextInt(), sc.nextDouble(), sc.nextInt());
 	}
 	
 	
 	// Bepaal aantal planten tss 0-80cm, 80cm-1m, groter dan 1 m
 	private void maakOverzichtPlantenPerHoogte()
 	{
-		int[] overzicht = dc.maakOverzichtPlantenPerHoogte();
-		System.out.printf("%20s%20s%20s\n%20d%20d%20d",
-				"kleiner dan 80 cm", "80 - 100 cm", "groter dan 1 m",
-				overzicht[0], overzicht[1], overzicht[2]);
+		int[] inta = dc.maakOverzichtPlantenPerHoogte();
+		System.out.println("%20s%20s%20s%n%20s%20s%20s".formatted("Kleiner dan 80cm","80-100 cm","Groter dan 1m",inta[0],inta[1],inta[2]));
 	}
 	
 	private void geefPlantenInVoorraad(boolean inVoorraad)
 	{
-		for (PlantDTO p : dc.geefAllePlanten(inVoorraad))
-		{
-			System.out.printf("%S met code %s, %d cm hoog, kost EUR %.2f: %d in voorraad%n",
-					p.naam(), p.soortCode(), p.hoogteInCm(), p.prijsInEuro(), p.aantalInVoorraad());
+		PlantDTO[] planten = dc.geefAllePlanten(inVoorraad);
+		for (PlantDTO plant : planten) {
+			System.out.println(plant);
 		}
 	}
-	
-	
-	
-	
 }
+
+
+//package cui;
+//
+//import java.util.Scanner;
+//
+//import domein.DomeinController;
+//import domein.Plant;
+//import dto.PlantDTO;
+//
+//public class TuincentrumApplicatie 
+//{
+//	private final DomeinController dc;
+//	
+//	private Scanner input = new Scanner(System.in);
+//
+//	public TuincentrumApplicatie(DomeinController dc) {
+//		this.dc = dc;
+//	}
+//
+//	public void start() 
+//	{
+//		String[] menuKeuzes = {"Toon overzicht alle planten", "Toon overzicht voorradige planten","Voeg plant toe","Geef overzicht per hoogte",  "Geef verkoopwaarde", "Stoppen"};
+//		int keuze = maakMenuKeuze(menuKeuzes,"Wat kies je? ");
+//	
+//		while (keuze != 6)
+//		{
+//			switch(keuze) {
+//				case 1 -> geefPlantenInVoorraad(false);
+//				case 2 -> geefPlantenInVoorraad(true);
+//				case 3 -> voegPlantToe();
+//				case 4 -> maakOverzichtPlantenPerHoogte();
+//				case 5 -> System.out.printf("De verkoopwaarde van de stock in EUR: %.2f%n", dc.bepaalWaardeVerkoop());
+//			}
+//			keuze = maakMenuKeuze(menuKeuzes,"Wat kies je? ");
+//		} 
+//			
+//	}
+//	
+//	private int maakMenuKeuze(String[] keuzes, String hoofding) 
+//	{
+//		int keuze;
+//		boolean geldig = false;
+//		do 
+//		{
+//			System.out.printf("%n%s", hoofding);
+//			for (int i = 0; i < 6; i++)
+//				System.out.printf("%n%d. %s", i + 1, keuzes[i]);
+//			System.out.print("\nJouw keuze: ");
+//			keuze = input.nextInt();
+//			if (keuze >= 1 || keuze < 7) 
+//				geldig = true;
+//			else
+//				geldig = false;
+//		}while (!geldig);
+//		
+//		return keuze;
+//	}
+//	
+//
+//	private void voegPlantToe()
+//	{
+//		dc.voegPlantToe(geefString("Geef de naam"),
+//						geefchar("Geef de soortcode (A, B of C)"),
+//						geefInt("Geef de hoogte in cm"), 
+//						geefDouble("Geef de prijs in EUR"), 
+//						geefInt("Hoeveel in voorraad"));
+//		
+//	}
+//	
+//	
+//	private String geefString(String heading) {
+//		System.out.printf("%s: ", heading);
+//		return input.next();
+//	}
+//	
+//	private char geefchar(String heading) 
+//	{
+//		System.out.printf("%s: ", heading);
+//		return input.next().charAt(0);
+//	}
+//	
+//	private int geefInt(String heading) 
+//	{
+//		System.out.printf("%s: ", heading);
+//		return input.nextInt();
+//	}
+//	
+//	private double geefDouble(String heading) 
+//	{
+//		System.out.printf("%s: ", heading);
+//		return input.nextDouble();
+//	}
+//	
+//	
+//	// Bepaal aantal planten tss 0-80cm, 80cm-1m, groter dan 1 m
+//	private void maakOverzichtPlantenPerHoogte()
+//	{
+//		int[] overzicht = dc.maakOverzichtPlantenPerHoogte();
+//		System.out.printf("%20s%20s%20s\n%20d%20d%20d",
+//				"kleiner dan 80 cm", "80 - 100 cm", "groter dan 1 m",
+//				overzicht[0], overzicht[1], overzicht[2]);
+//	}
+//	
+//	private void geefPlantenInVoorraad(boolean inVoorraad)
+//	{
+//		for (PlantDTO p : dc.geefAllePlanten(inVoorraad))
+//		{
+//			System.out.printf("%S met code %s, %d cm hoog, kost EUR %.2f: %d in voorraad%n",
+//					p.naam(), p.soortCode(), p.hoogteInCm(), p.prijsInEuro(), p.aantalInVoorraad());
+//		}
+//	}
+//	
+//	
+//	
+//	
+//}

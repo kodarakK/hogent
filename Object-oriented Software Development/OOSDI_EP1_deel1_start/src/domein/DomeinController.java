@@ -1,50 +1,92 @@
 package domein;
 
-import domein.Tuincentrum;
-import domein.Plant;
-import dto.PlantDTO;
+import java.util.List;
 
+import dto.PlantDTO;
 
 public class DomeinController 
 {
 	private Tuincentrum tuincentrum;
-	private PlantDTO[] plantenDTOs;
 
 	public DomeinController() {
-        tuincentrum = new Tuincentrum();
+		tuincentrum = new Tuincentrum();
 	}
 
 	public void voegPlantToe(String naam, char soortCode, int hoogteInCm, double prijsInEuro, int aantalInVoorraad) {
-        tuincentrum.voegPlantToe(new Plant(naam, soortCode, hoogteInCm, prijsInEuro, aantalInVoorraad));
-		
+		tuincentrum.voegPlantToe(new Plant(naam, soortCode, hoogteInCm, prijsInEuro, aantalInVoorraad));
 	}
 
 	public PlantDTO[] geefAllePlanten(boolean inVoorraad) {
-		plantenDTOs = new PlantDTO[tuincentrum.geefPlanten(inVoorraad).size()];
-		int index = 0;
-		for (Plant p : tuincentrum.geefPlanten(inVoorraad))
-		{	
-			plantenDTOs[index++] = new PlantDTO(p.getNaam(), p.getSoortCode(), p.getHoogteInCm(),
-					p.getPrijsInEuro(), p.getAantalInVoorraad());
-			
+		List<Plant> planten = tuincentrum.geefPlanten(inVoorraad);
+		PlantDTO[] plantDTO = new PlantDTO[planten.size()];
+
+		int itt = 0;
+
+		for (Plant plant : planten) {
+			plantDTO[itt++] = new PlantDTO(plant.getNaam(), plant.getSoortCode(), plant.getHoogteInCm(), plant.getPrijsInEuro(), plant.getAantalInVoorraad());
 		}
-		return plantenDTOs;
+
+		return plantDTO;
 	}
 
 	
 	public double bepaalWaardeVerkoop()
 	{
-		double totaal = 0;
-		for (PlantDTO plantDTO : geefAllePlanten(true))
-		{
-			totaal += plantDTO.prijsInEuro();
-		}
-		return totaal;
+		return tuincentrum.bepaalWaardeVerkoop();
 	}
 
 	public int[] maakOverzichtPlantenPerHoogte() 
 	{
-		return tuincentrum.maakOverzichtPlanten();
+		return tuincentrum.maakOverzichtPlantenPerHoogte();
 	}
-
 }
+//package domein;
+//
+//import domein.Tuincentrum;
+//import domein.Plant;
+//import dto.PlantDTO;
+//
+//
+//public class DomeinController 
+//{
+//	private Tuincentrum tuincentrum;
+//	private PlantDTO[] plantenDTOs;
+//
+//	public DomeinController() {
+//        tuincentrum = new Tuincentrum();
+//	}
+//
+//	public void voegPlantToe(String naam, char soortCode, int hoogteInCm, double prijsInEuro, int aantalInVoorraad) {
+//        tuincentrum.voegPlantToe(new Plant(naam, soortCode, hoogteInCm, prijsInEuro, aantalInVoorraad));
+//		
+//	}
+//
+//	public PlantDTO[] geefAllePlanten(boolean inVoorraad) {
+//		plantenDTOs = new PlantDTO[tuincentrum.geefPlanten(inVoorraad).size()];
+//		int index = 0;
+//		for (Plant p : tuincentrum.geefPlanten(inVoorraad))
+//		{	
+//			plantenDTOs[index++] = new PlantDTO(p.getNaam(), p.getSoortCode(), p.getHoogteInCm(),
+//					p.getPrijsInEuro(), p.getAantalInVoorraad());
+//			
+//		}
+//		return plantenDTOs;
+//	}
+//
+//	
+//	public double bepaalWaardeVerkoop()
+//	{
+//		double totaal = 0;
+//		for (PlantDTO plantDTO : geefAllePlanten(true))
+//		{
+//			totaal += plantDTO.prijsInEuro();
+//		}
+//		return totaal;
+//	}
+//
+//	public int[] maakOverzichtPlantenPerHoogte() 
+//	{
+//		return tuincentrum.maakOverzichtPlanten();
+//	}
+//
+//}
